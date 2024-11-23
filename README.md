@@ -49,7 +49,7 @@ Install and configure Nginx as reverse proxy with RPC and WS locations and SSL s
 A collection of Ansible playbooks for managing blockchain nodes operations.
 
 ⏬ Snapshot handling tips and commands  
-A collection of Ansible playbooks for managing blockchain nodes operations.
+How to download snapshot efficiently and data dir tips.
 
 ## Node operations best practices
 
