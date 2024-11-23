@@ -1,0 +1,4 @@
+# add credentials to /etc/nginx/.htpasswd
+username=strong_user
+password=strong_password
+htpasswd -b -c /etc/nginx/.htpasswd $username $password

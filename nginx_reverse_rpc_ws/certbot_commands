@@ -1,0 +1,26 @@
+# 
+# Update nginx config with the desired locations for your reverse proxy
+
+sudo vim /etc/nginx/sites-available/default
+
+sudo systemctl restart nginx 
+sudo apt install certbot python3-certbot-nginx -y
+
+# try to follow a convention for your DNS name, e.g.
+# prod-hetzner-eth-fsn-1.domain.com
+# env-cloud-network-geo-index.domain.com
+
+sudo certbot --nginx -d your-domain.contoso.com
+# email: your-main@domain.com
+
+sudo systemctl restart nginx
+
+# Add renew crontab
+sudo crontab -e
+#0 12 * * * /usr/bin/certbot renew --quiet
+
+# make sure nginx is up by running systemctl status nginx
+# in case of an error run
+journalctl -u nginx -f # to see service logs
+nginx -t # to check config files are valid
+tail -f /var/log/nginx/error.log # to see the error logs of nginx
