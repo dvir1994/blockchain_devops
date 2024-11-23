@@ -1,0 +1,26 @@
+---
+- name: Update cosmovisor.service file and gather facts
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update cosmovisor.service file
+      ansible.builtin.replace:
+        path: /lib/systemd/system/cosmovisor.service
+        regexp: 'Environment=UNSAFE_SKIP_BACKUP=false'
+        replace: 'Environment=UNSAFE_SKIP_BACKUP=true'
+      register: cosmovisor_service_changed
+
+    - name: Gather facts
+      ansible.builtin.setup:
+        gather_subset:
+          - all
+        gather_timeout: 60
+
+  handlers:
+    - name: Restart cosmovisor service
+      ansible.builtin.systemd:
+        name: cosmovisor.service
+        state: restarted
+      when: cosmovisor_service_changed.changed

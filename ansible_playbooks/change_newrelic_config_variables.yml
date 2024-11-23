@@ -1,0 +1,52 @@
+---
+- name: Update newrelic-infra.yaml file and gather facts
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update metrics_storage_sample_rate
+      ansible.builtin.replace:
+        path: /etc/newrelic-infra.yml
+        regexp: 'metrics_storage_sample_rate: .+'
+        replace: 'metrics_storage_sample_rate: 150'
+      register: metrics_storage_sample_rate_changed
+
+    - name: Update metrics_process_sample_rate
+      ansible.builtin.replace:
+        path: /etc/newrelic-infra.yml
+        regexp: 'metrics_process_sample_rate: .+'
+        replace: 'metrics_process_sample_rate: 150'
+      register: metrics_process_sample_rate_changed
+
+    - name: Update metrics_network_sample_rate
+      ansible.builtin.replace:
+        path: /etc/newrelic-infra.yml
+        regexp: 'metrics_network_sample_rate: .+'
+        replace: 'metrics_network_sample_rate: 150'
+      register: metrics_network_sample_rate_changed
+
+    - name: Update metrics_system_sample_rate
+      ansible.builtin.replace:
+        path: /etc/newrelic-infra.yml
+        regexp: 'metrics_system_sample_rate: .+'
+        replace: 'metrics_system_sample_rate: 150'
+      register: metrics_system_sample_rate_changed
+
+    - name: Update metrics_nfs_sample_rate
+      ansible.builtin.replace:
+        path: /etc/newrelic-infra.yml
+        regexp: 'metrics_nfs_sample_rate: .+'
+        replace: 'metrics_nfs_sample_rate: 150'
+      register: metrics_nfs_sample_rate_changed
+
+    - name: Gather facts
+      ansible.builtin.setup:
+        gather_subset:
+          - all
+        gather_timeout: 60
+
+    - name: Restart newrelic-infra service
+      ansible.builtin.systemd:
+        name: newrelic-infra.service
+        state: restarted

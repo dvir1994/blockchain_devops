@@ -1,0 +1,26 @@
+---
+- name: Update cosmovisor.service file and gather facts
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update new relic config file to new API key
+      ansible.builtin.replace:
+        path: /etc/newrelic-infra.yml
+        regexp: 'license_key: .+'
+        replace: 'license_key: YOUR_NEW_KEY_HERE'
+      register: new_relic_config_file_changed
+
+    - name: Gather facts
+      ansible.builtin.setup:
+        gather_subset:
+          - all
+        gather_timeout: 60
+
+  handlers:
+    - name: Restart newrelic-infra service
+      ansible.builtin.systemd:
+        name: newrelic-infra.service
+        state: restarted
+      when: new_relic_config_file_changed.changed

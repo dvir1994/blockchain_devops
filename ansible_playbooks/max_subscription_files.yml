@@ -1,0 +1,35 @@
+---
+- name: Update max_subscription_clients config
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update max_subscription_clients
+      block:
+        - name: Replace max_subscription_clients
+          ansible.builtin.replace:
+            path: "~/.network/config/config.toml"
+            regexp: 'max_subscription_clients = 100'
+            replace: 'max_subscription_clients = 200'
+          register: max_subscription_clients_changed
+      rescue:
+        - name: Rescue in case the home folder was not found (due to become true)
+          ansible.builtin.replace:
+            path: "/home/ubuntu/.network/config/config.toml"
+            regexp: 'max_subscription_clients = 100'
+            replace: 'max_subscription_clients = 200'
+          register: max_subscription_clients_changed
+
+    - name: Gather facts
+      ansible.builtin.setup:
+        gather_subset:
+          - all
+        gather_timeout: 60
+
+  handlers:
+    - name: Restart cosmovisor service
+      ansible.builtin.systemd:
+        name: cosmovisor.service
+        state: restarted
+      when: max_subscription_clients_changed.changed

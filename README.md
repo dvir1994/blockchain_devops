@@ -1,5 +1,7 @@
 # Blockchain DevOps Tools
 
+![Ethereum Foundation Logo](https://ethereum.org/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fef-logo-white.987d077a.png&w=384&q=75)
+
 A collection of tools developed for blockchain operations and monitoring.
 
 ## Tools
@@ -40,3 +42,5 @@ Instructions to extend LVM on your node with a new attached disk.
 ### 12. nginx_reverse_rpc_ws
 Install and configure Nginx as reverse proxy with RPC and WS locations and SSL support.
 
+### 13. ansible_playbooks
+A collection of Ansible playbooks for managing blockchain nodes operations.
