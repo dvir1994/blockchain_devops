@@ -33,3 +33,10 @@ Get the latest block from a list of endpoints and verify if they are in sync.
 
 ### 10. wallet_funds_monitor
 Monitoring tool to check the funds of different wallets on several blockchains.
+
+### 11. lvm_disk_extend
+Instructions to extend LVM on your node with a new attached disk.
+
+### 12. nginx_reverse_rpc_ws
+Install and configure Nginx as reverse proxy with RPC and WS locations and SSL support.
+
