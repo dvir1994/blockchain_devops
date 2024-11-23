@@ -1,0 +1,24 @@
+To save on space, you can extract the content of the archive on the fly (instead of download and extraction)
+Another option to save on disk is to setup a temp machine with large disk space, donwload the archive, extract it and then rsync to destination node
+
+# tar lz4
+apt install -y lz4
+wget -q -O - $snapshot_url | tar -I lz4 -xvf -
+
+# zst
+apt install -y zstd
+curl -s $snapshot_url | zstd -d | tar xvf -
+
+# use aria to speed up downloads, chunk the target file and download the parts in parallel
+apt install -y aria2
+aria2c -x 16 $snapshot_url_base
+
+# Tips:
+# usually it is the practice to save the data dir in a user dedicated to running the node, under ~/.network_name
+# make sure to take a regular backup of your data dir
+# use RAID if possible to help with disk corruption cases
+# monitor the disk space on your node and setup alerts (Slack, PagerDuty)
+# make sure you set correct permissions for the datadir
+# use pruning for you node if not running an archive node
+# use logrotate to save on disk space, with retention and zip archiving
+
