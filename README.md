@@ -18,6 +18,9 @@ Find archive nodes from a list of websocket endpoints.
 🔎 Block height comparison - your node vs. public RPC  
 A monitoring feature for Gatus to support fetching latest block diff between local and Public RPC.
 
+⚛️ Cosmos Hub node exporter  
+Prometheus exporter for Cosmos Hub node written in Go.
+
 ✍🏻 Generate a signed TX  
 Generate a signed transaction for a given chain and private key.
 
